@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using ShopBookWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{   
+    //THIS
+    //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings:SQLConnection").Value);
+
+    //OR
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
+});
 
 var app = builder.Build();
 
