@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopBookWeb.Data;
 
@@ -10,9 +11,11 @@ using ShopBookWeb.Data;
 namespace ShopBookWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260626021713_AddDisplayOrderToCategory")]
+    partial class AddDisplayOrderToCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,19 +47,19 @@ namespace ShopBookWeb.Migrations
                         new
                         {
                             Id = 1,
-                            DisplayOrder = 1,
+                            DisplayOrder = 0,
                             Name = "Action"
                         },
                         new
                         {
                             Id = 2,
-                            DisplayOrder = 2,
+                            DisplayOrder = 0,
                             Name = "ASciFi"
                         },
                         new
                         {
                             Id = 3,
-                            DisplayOrder = 3,
+                            DisplayOrder = 0,
                             Name = "History"
                         });
                 });
