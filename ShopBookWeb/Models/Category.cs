@@ -1,4 +1,6 @@
-﻿namespace ShopBookWeb.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ShopBookWeb.Models
 {
     public class Category
     {
