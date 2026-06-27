@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopBook.Business.Services.IServices;
 using ShopBook.Models;
 using ShopBookWeb.Data;
 
@@ -11,22 +12,19 @@ namespace ShopBookWeb.Controllers
     public class CategoryController : Controller
     {
         // Contexte de la base de données (Entity Framework)
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoryService _categoryService;
 
         // Constructeur : reçoit le contexte de la base de données
         // grâce à l'injection de dépendances
-        public CategoryController(ApplicationDbContext context)
+        public CategoryController(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         // Action qui affiche la liste des catégories
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Récupère toutes les catégories de la base de données
-            var categories = _context.Categories.ToList();
-
-            // Envoie la liste des catégories à la vue "Index"
+            var categories = _categoryService.GetAllCategoriesAsync();
             return View("Index", categories);
         }
 
@@ -38,10 +36,10 @@ namespace ShopBookWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Create")]
-        public IActionResult CreatePOST(Category category)
+        public async Task<IActionResult> CreatePOST(Category category)
         {
 
-            if (!String.IsNullOrEmpty(category.Name) && _context.Categories.Any(c => c.Name.ToLower() == category.Name.ToLower()))
+            if (!String.IsNullOrEmpty(category.Name) && await _categoryService.IsCategoryNameUniqueAsync(category.Name))
             {
                 ModelState.AddModelError("", "Category name already exists!");
             }
@@ -49,21 +47,20 @@ namespace ShopBookWeb.Controllers
 
             if (ModelState.IsValid) 
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
+                await _categoryService.CreateCategoryAsync(category);
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
             return View();
         }
 
-        public IActionResult Update(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if(id==null || id == 0)
             {
                 return NotFound();
             }
-            var category = _context.Categories.Find(id);
+            var category = _categoryService.GetCategoryByIdAsync(id.Value);
             if (category== null)
             {
                 return NotFound();
@@ -74,10 +71,10 @@ namespace ShopBookWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Update")]
-        public IActionResult UpdatePOST(Category category)
+        public async Task<IActionResult> UpdatePOST(Category category)
         {
-            if (!String.IsNullOrEmpty(category.Name) && 
-                _context.Categories.Any(c => c.Name.ToLower() == category.Name.ToLower() && c.Id != category.Id))
+            if (!String.IsNullOrEmpty(category.Name) &&
+               await _categoryService.IsCategoryNameUniqueAsync(category.Name, category.Id))
             {
                 ModelState.AddModelError("", "Category name already exists!");
             }
@@ -85,8 +82,7 @@ namespace ShopBookWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Categories.Update(category);
-                _context.SaveChanges();
+                await _categoryService.UpdateCategoryAsync(category);
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
@@ -100,7 +96,7 @@ namespace ShopBookWeb.Controllers
                 return NotFound();
             }
 
-            var category = _context.Categories.Find(id);
+            var category = _categoryService.GetCategoryByIdAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -114,14 +110,7 @@ namespace ShopBookWeb.Controllers
         [ActionName("Delete")]
         public IActionResult DeletePOST(int id)
         {
-            var category = _context.Categories.Find(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            _categoryService.DeleteCategoryAsync(id);
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using ShopBook.Business.Services;
+using ShopBook.Business.Services.IServices;
 using ShopBookWeb.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     //OR
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
 });
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
