@@ -29,8 +29,6 @@ namespace ShopBookWeb.Controllers
             return View("Index", categories);
         }
 
-        // Action appelée lorsqu'on ouvre la page de création
-        // Affiche simplement le formulaire
         public IActionResult Create()
         {
             return View();
@@ -43,11 +41,19 @@ namespace ShopBookWeb.Controllers
         [ActionName("Create")]
         public IActionResult CreatePOST(Category category)
         {
-            _context.Categories.Add(category);
+            if (!String.IsNullOrEmpty(category.Name) && _context.Categories.Any(c => c.Name.ToLower() == category.Name.ToLower()))
+            {
+                ModelState.AddModelError("", "Category name already exists!");
+            }
 
-            _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            if (ModelState.IsValid) 
+            {
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
