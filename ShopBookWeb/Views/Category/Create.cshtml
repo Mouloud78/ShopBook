@@ -13,8 +13,8 @@
             <p class="mb-0 small" style="color: #1DB954;">Add a new category for your products</p>
         </div>
         <div class="card-body p-4">
-            <form method="post">
-                <input asp-for="Id" hidden/>
+            <form method="post" asp-action="Create">
+               
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <div class="mb-3">
                     <label asp-for="Name" class="form-label fw-semibold small">Category Name</label>
