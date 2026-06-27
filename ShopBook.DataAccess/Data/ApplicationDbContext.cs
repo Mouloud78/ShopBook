@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopBookWeb.Models;
+using ShopBook.Models;
+
 
 namespace ShopBookWeb.Data
 {

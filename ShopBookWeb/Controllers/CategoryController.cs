@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopBook.Models;
 using ShopBookWeb.Data;
-using ShopBookWeb.Models;
+
 
 
 // Espace de noms contenant les contrôleurs de l'application

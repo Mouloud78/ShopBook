@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShopBook.DataAccess\ShopBook.DataAccess.csproj" />
+    <ProjectReference Include="..\ShopBook.Models\ShopBook.Models.csproj" />
+    <ProjectReference Include="..\ShopBook.Utility\ShopBook.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

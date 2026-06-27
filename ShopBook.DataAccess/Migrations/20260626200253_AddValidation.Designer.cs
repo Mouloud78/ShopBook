@@ -8,18 +8,18 @@ using ShopBookWeb.Data;
 
 #nullable disable
 
-namespace ShopBookWeb.Migrations
+namespace ShopBook.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260626020801_SeedCategoryTable")]
-    partial class SeedCategoryTable
+    [Migration("20260626200253_AddValidation")]
+    partial class AddValidation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.9")
+                .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,9 +32,13 @@ namespace ShopBookWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -44,16 +48,19 @@ namespace ShopBookWeb.Migrations
                         new
                         {
                             Id = 1,
+                            DisplayOrder = 1,
                             Name = "Action"
                         },
                         new
                         {
                             Id = 2,
+                            DisplayOrder = 2,
                             Name = "ASciFi"
                         },
                         new
                         {
                             Id = 3,
+                            DisplayOrder = 3,
                             Name = "History"
                         });
                 });

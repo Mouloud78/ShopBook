@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="ShopBook.Business/ShopBook.Business.csproj" Id="dc276053-cfaf-4112-8a1c-cb242ad50cc2" />
+  <Project Path="ShopBook.DataAccess/ShopBook.DataAccess.csproj" Id="5617067a-513b-4abc-9350-333921c877bb" />
+  <Project Path="ShopBook.Models/ShopBook.Models.csproj" Id="9b26be4b-8438-4a14-b8ec-0f7fe30fff32" />
+  <Project Path="ShopBook.Utility/ShopBook.Utility.csproj" Id="e4f9c055-4416-464f-8060-06282d6b1978" />
   <Project Path="ShopBookWeb/ShopBookWeb.csproj" />
 </Solution>

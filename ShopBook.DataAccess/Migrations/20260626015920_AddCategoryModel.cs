@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ShopBookWeb.Migrations
+namespace ShopBook.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCategoryModel : Migration
