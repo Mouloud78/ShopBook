@@ -61,7 +61,7 @@ namespace ShopBook.Business.Services
         {
             if (categoryId.HasValue)
             {
-              return !await _context.Categories.AnyAsync(c => c.Name.ToLower() == name.ToLower() && c.Id != categoryId.Value));
+              return !await _context.Categories.AnyAsync(c => c.Name.ToLower() == name.ToLower() && c.Id != categoryId.Value);
             }
             else
             {

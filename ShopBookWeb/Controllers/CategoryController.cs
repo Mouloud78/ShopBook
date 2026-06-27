@@ -11,21 +11,18 @@ namespace ShopBookWeb.Controllers
     // Contrôleur responsable de la gestion des catégories
     public class CategoryController : Controller
     {
-        // Contexte de la base de données (Entity Framework)
+       
         private readonly ICategoryService _categoryService;
 
-        // Constructeur : reçoit le contexte de la base de données
-        // grâce à l'injection de dépendances
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
 
-        // Action qui affiche la liste des catégories
         public async Task<IActionResult> Index()
         {
-            var categories = _categoryService.GetAllCategoriesAsync();
-            return View("Index", categories);
+            var categories = await _categoryService.GetAllCategoriesAsync();
+            return View("Index", categories.ToList());
         }
 
         public IActionResult Create()
@@ -60,7 +57,7 @@ namespace ShopBookWeb.Controllers
             {
                 return NotFound();
             }
-            var category = _categoryService.GetCategoryByIdAsync(id.Value);
+            var category = await _categoryService.GetCategoryByIdAsync(id.Value);
             if (category== null)
             {
                 return NotFound();
@@ -89,14 +86,14 @@ namespace ShopBookWeb.Controllers
             return View();
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var category = _categoryService.GetCategoryByIdAsync(id.Value);
+            var category =await  _categoryService.GetCategoryByIdAsync(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -108,9 +105,9 @@ namespace ShopBookWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
-        public IActionResult DeletePOST(int id)
+        public async  Task<IActionResult> DeletePOST(int id)
         {
-            _categoryService.DeleteCategoryAsync(id);
+            await _categoryService.DeleteCategoryAsync(id);
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
